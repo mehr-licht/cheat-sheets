@@ -1,0 +1,270 @@
+//Revert changes in staged files
+For all unstaged files in current working directory use:
+
+❯ git checkout -- .
+For a specific file use:
+❯ git checkout -- path/to/file/to/revert
+git checkout -- . means the same thing as git checkout ., except that you're explicit about the fact that you're not specifying the branch name.
+They both say checkout the HEAD version on the branch I am currently on for '.' or './'.
+If you do git checkout branch-name directory-or-file-name in general, you get the HEAD version of directory-or-file-name on branch branch-name
+
+Doesn't work if there are untracked files. Git says error: The following untracked working tree files would be overwritten by checkout: .... 
+
+starting in July 2019, git status gives the suggestion: 
+❯ git restore. git restore is a new command exactly for this purpose. 
+ver git restore no fim deste ficheiro
+
+//Revert changes including unstaged files
+❯ git stash save --keep-index --include-untracked
+You don't need to include --include-untracked if you don't want to be thorough about it.
+After that, you can drop that stash with a git stash drop command if you like.
+
+
+
+// remover do repositorio mas deixar daqui no computador (locally)
+❯ git rm --cached file.ext
+
+
+
+//adicionar uma pasta local já existente a um repo
+
+1- Create your project online (like Bitbucket or GitHub)
+
+2- CD into the folder where your files are and initialize it
+$ git init
+
+3- Add all your files to be tracked (if you have anything that you want to exclude, you might want to do that with .gitignore now)
+$ git add .
+
+4- Commit with a initial message
+$ git commit -m "My initial commit"
+
+5- Add the remote location (example below is for Bitbucket)
+$ git remote add origin https://github.com/mehr-licht/A3S2COMP.git
+
+6- Push the files
+$ git push -u origin master
+
+
+
+
+
+
+
+
+// renomear branch
+❯ git branch -m <new_name> //localmente
+❯ git push origin :<old_name> //renomear e apagar remotamente
+  
+Make sure you run command git status and check that the newly created branch is pointing to its own ref and not the older one.
+If you find the reference to the older branch, you need to unset the upstream using:
+❯ git branch --unset-upstream //unsettar as refs para remote
+
+❯ git push origin <new_name>:refs/heads/<new_name> //settar as novas refs
+
+
+
+
+
+//git rebase
+no fim do development é fazer o rebase:
+primeiro fazer todos os comitts [e pushs] do nosso branch
+depois atualizar o master localmente:
+❯ git checkout master
+❯ git pull --ff-only #a flag é para ter a certeza que não há problemas, mas não deverá haver
+
+Rebase para o nosso branch:
+❯ git checkout nossobranch
+❯ git rebase master
+
+Isto vai iniciar um processo de rebase em que os commits do master vao todos ser aplicados, e depois os teus commits serão aplicados sequencialmente, tendo de se resolver conflitos em cada commit, quando eles surgirem (prevejo maioritariamente problemas no package.json - se os houver no package-lock,  mais vale remover as tags de conflito do git, aceitando uma das versões e depois fazer npm install outra vez, de modo a que o package-lock fique bem. (quando tive que aceitar/declinar mudanças mudando a mensagem, fui ao gitKraken selecionar o que queria aproveitar nos ficheiros que ele estava a detectar estarem a dar conflicto na 'ferramenta externa')
+Depois continua-se para o próximo commit, fazendo isto as vezes que for necessário.
+resolvendo o conflicto, continua-se com git rebase --continue
+
+Depois disto, como basicamente "inserimos" commits antes dos primeiros no teu branch (devido ao rebase, é suposto) é preciso fazer git push com force:
+❯ git push --force-with-lease #Para dar force, usar sempre force with lease em vez de apenas force! É boa prática
+
+
+
+
+//DELETE BRANCH
+❯ mudar de branch
+❯ git branch -d NOMEDOBRANCHAAPAGAR
+❯ git push origin --delete NOMEDOBRANCHAAPAGAR
+
+
+
+
+
+//git diff
+fui ver se haveria algo nos a3_screenshots do novo master de diferente do antigo (porque os profs ainda podem estar a seguir links que apontam para 'master' e este novo ser mais velho...)
+❯ git diff master altMeister a3_screenshots/.   
+e devolveu-me
+diff --git a/a3_screenshots/a4.png b/a3_screenshots/a4.png
+index e5ff304..74f1483 100644
+Binary files a/a3_screenshots/a4.png and b/a3_screenshots/a4.png differ
+
+
+
+
+//git stash
+cada git stash drop retira um stash da pilha de stashes
+o apply repoe o ultimos stash que se tinha posto de lado mas deixa-o na lista de stashes
+o pop repoe mas retira-o do topo da pilha...
+
+para ver a lista de stashes:
+❯ git stash list
+isto vai dar uma lista com indices stash@{1}; stash@{2} ; etc
+
+ver as diffs(por omissao mostra diffs) de um certo stash da lista (indica-se esse indice)
+❯ git show -p stash@{1} 
+
+ir buscar apenas um ficheiro de um certo stash:
+❯ git checkout stash@{1} -- app/Comment.php
+[este último comando substitui o ficheiro se ele existir - cuidado - use with caution] (edited) 
+
+
+
+
+
+❯ git commit --amend
+para juntar ao commit anterior (e possibilidade de mudar commit message) 
+
+
+
+Amending the message of older or multiple commit messages (e squash e edit e etc)
+
+If you need to amend the message for multiple commits or an older commit, you can use interactive rebase, then force push to change the commit history.
+
+1) On the command line, navigate to the repository that contains the commit you want to amend.
+
+2) Use the git rebase -i HEAD~n command to display a list of the last n commits in your default text editor.
+$ git rebase -i HEAD~3 # Displays a list of the last 3 commits on the current branch
+The list will look similar to the following:
+
+pick e499d89 Delete CNAME
+pick 0c39034 Better README
+pick f7fde4a Change the commit message but push the same commit.
+
+# Rebase 9fdb3bd..f7fde4a onto 9fdb3bd
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+
+3) Replace pick with reword before each commit message you want to change.
+pick e499d89 Delete CNAME
+reword 0c39034 Better README
+reword f7fde4a Change the commit message but push the same commit.
+
+4) Save and close the commit list file.
+
+5) In each resulting commit file, type the new commit message, save the file, and close it.
+
+6) Force-push the amended commits.
+$ git push --force
+
+
+
+
+
+
+
+
+
+
+
+git log
+git reflog
+
+
+//go back in the same branch
+❯ git reset --hard COMMITSHA
+
+//checkout a specific commit
+❯ git checkout COMMITSHA
+
+
+
+
+
+//------------------------SACADO DA NET-------------------------//
+
+Before creating a new branch, pull the changes from upstream. Your master needs to be up to date.
+
+$ git pull
+Create the branch on your local machine and switch in this branch :
+
+$ git checkout -b [name_of_your_new_branch]
+Push the branch on github :
+
+$ git push origin [name_of_your_new_branch]
+When you want to commit something in your branch, be sure to be in your branch. Add -u parameter to set-upstream.
+
+You can see all the branches created by using :
+
+$ git branch -a
+Which will show :
+
+* approval_messages
+  master
+  master_clean
+Add a new remote for your branch :
+
+$ git remote add [name_of_your_remote] [name_of_your_new_branch]
+Push changes from your commit into your branch :
+
+$ git push [name_of_your_new_remote] [url]
+Update your branch when the original branch from official repository has been updated :
+
+$ git fetch [name_of_your_remote]
+Then you need to apply to merge changes if your branch is derivated from develop you need to do :
+
+$ git merge [name_of_your_remote]/develop
+Delete a branch on your local filesystem :
+
+$ git branch -d [name_of_your_new_branch]
+To force the deletion of local branch on your filesystem :
+
+$ git branch -D [name_of_your_new_branch]
+Delete the branch on github :
+
+$ git push origin :[name_of_your_new_branch]
+The only difference is the: to say delete, you can do it too by using GitHub interface to remove branch: https://help.github.com/articles/deleting-unused-branches.
+
+If you want to change default branch, it's so easy with GitHub, in your fork go into Admin and in the drop-down list default branch choose what you want.
+
+If you want create a new branch:
+
+$ git branch <name_of_your_new_branch>
+
+
+
+//git restore
+While this command can also be used to restore the working tree to a specific commit or to restore the content of the index,
+by default, the working tree is restored to the state in the index (what is asked here).
+
+So, in order to restore the files matching a pathspec (getting rid of their unstaged changes), you would do:
+
+git restore <pathspec>
+And to remove all unstaged changes in the current repository:
+
+git restore .
+As with git checkout -- ., this will only discard changes to files tracked by Git and will not discard any new untracked files.
+If you want to discard any unstaged changes, including new untracked files, you could run an additional:
+
+git clean -dff
+Be very careful with this later command however as you might discard files you did not intend to get rid of. (desfaz mudanças em tudo o que está no .gitignore....)
+

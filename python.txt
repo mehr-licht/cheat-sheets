@@ -1,0 +1,88 @@
+Python is processed at runtime by the interpreter. There is no need to compile your program before executing it.
+
+print('Hello world!')
+
+>>> 2 + 2
+4
+
+dividing any two integers produces a float. 
+
+potencias:
+>>> 2**5
+32
+>>> 9 ** (1/2)
+3.0
+
+To determine the quotient and remainder of a division, use the floor division and modulo operators, respectively. 
+>>> 20 // 6
+3
+>>> 1.25 % 0.5
+0.25
+
+A string is created by entering text between two single or double quotation marks.
+
+Python provides an easy way to avoid manually writing "\n" to escape newlines in a string. Create a string with three sets of quotes, and newlines that are created by pressing Enter are automatically escaped for you.
+
+To get input from the user in Python, you can use the intuitively named input function. 
+The function prompts the user for input, and returns what they enter as a string (with the contents automatically escaped).
+
+>>> print("spam" * 3)
+spamspamspam
+>>> 4 * '2'
+'2222'
+
+In Python, it's impossible to complete certain operations due to the types involved. For instance, you can't add two strings containing the numbers 2 and 3 together to produce the integer 5, as the operation will be performed on strings, making the result '23'.
+The solution to this is type conversion. 
+In that example, you would use the int function.
+>>> "2" + "3"
+'23'
+>>> int("2") + int("3")
+5
+In Python, the types we have used so far have been integers, floats, and strings. The functions used to convert to these are int, float and str, respectively.
+
+Another example of type conversion is turning user input (which is a string) to numbers (integers or floats), to allow for the performance of calculations.
+>>> float(input("Enter a number: ")) + float(input("Enter another number: "))
+Enter a number: 40
+Enter another number: 2
+42.0
+
+To assign a variable, use one equals sign
+>>> x = 7
+
+>>> x = 123.456
+>>> print(x)
+123.456
+>>> x = "This is a string"
+>>> print(x + "!")
+This is a string!
+
+Python is a case sensitive programming language
+
+>>> foo = "a string"
+>>> del foo
+>>> foo
+NameError: name 'foo' is not defined
+
+
+in Python indentation is mandatory; programs won't work without it. 
+the statements in the if should be indented.
+
+if num == 5:
+   print("Number is 5")
+elif num == 11:
+   print("Number is 11")
+elif num == 7:
+   print("Number is 7")
+else:
+   print("Number isn't 5, 11 or 7")
+   
+Python's Boolean operators are and, or, and not. 
+
+== has a higher precedence than or:
+>>> False == False or True
+True
+
+Python's order of operations is the same as that of normal mathematics: parentheses first, then exponentiation, then multiplication/division, and then addition/subtraction.
+
+
+   

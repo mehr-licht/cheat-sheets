@@ -1,0 +1,44 @@
+Procurar ficheiros que apresentem um determinado texto dentro dele:
+
+grep -rnw '/path/to/somewhere/' -e 'texto'
+grep -rn . -e 'texto'
+
+-r or -R is recursive,
+-n is line number, and
+-w stands for match the whole word.
+-l (lower-case L) can be added to just give the file name of matching files.
+
+
+find . -type f -exec grep "texto" '{}' \; -print
+
+
+
+
+
+
+
+Encontrar ficheiros:
+
+find . -name testfile.txt
+
+find /home -name *.jpg
+
+find . -type f -empty
+
+find /home -user exampleuser -mtime 7 -iname ".db" 
+Find all .db files (ignoring text case) modified in the last 7 days by a user named exampleuser.
+
+
+-maxdepth X	Search current directory as well as all sub-directories X levels deep.
+-iname	Search without regard for text case.
+-not	Return only results that do not match the test case.
+-type f	Search for files.
+-type d	Search for directories.
+
+
+find / -name "*conf" -mtime 7
+find /home/exampleuser/ -name "*conf" -mtime 3
+ have been modified in the last 7 days. have been modified in the previous 3 days.
+
+
+
