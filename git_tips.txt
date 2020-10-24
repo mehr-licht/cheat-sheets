@@ -268,3 +268,41 @@ If you want to discard any unstaged changes, including new untracked files, you 
 git clean -dff
 Be very careful with this later command however as you might discard files you did not intend to get rid of. (desfaz mudanças em tudo o que está no .gitignore....)
 
+
+
+
+
+-------------------------------------------------------------------------------------------------
+
+
+//This is how to configure Notepad for example, useful in Windows:
+❯ git config --global core.editor "notepad"
+Notepad doesn't write files with Unix line endings, and cannot be used (alone) as the core.editor.
+GitPad, or another wrapper, is required. github.com/github/GitPad 
+
+//Gedit, more Linux friendly:
+❯ git config --global core.editor "gedit"
+
+//You can read the current configuration like this:
+❯ git config core.editor
+
+//you can reset core.editor to default using 
+❯ git config --global --unset-all core.editor
+
+------------------------------------------------------------------------------------------------
+
+//Change a remote Git repository//
+
+//check current Git remote repository
+$ git remote -v
+
+//the output should look something like this (SSN):
+//origin git@your.git.repo.example.com:user/repository.git (fetch)
+//origin git@your.git.repo.example.com:user/repository.git (push)
+
+//the output should look something like this (Clone with HTTPS)
+//origin https://your.git.repo.example.com/user/repository.git (fetch)
+//origin https://your.git.repo.example.com/user/repository.git (push)
+
+//We can change the remote repository by using git remote set-url command:
+$ git remote set-url origin git@your.git.repo.example.com:user/repository2.git
