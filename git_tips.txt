@@ -306,3 +306,33 @@ $ git remote -v
 
 //We can change the remote repository by using git remote set-url command:
 $ git remote set-url origin git@your.git.repo.example.com:user/repository2.git
+
+
+
+
+//copiar para outro repositório
+//útil de github para gitlab ou vice-versa
+//origin is the typical name for the-single-remote-server you work with. But if you want to have many, you probably want to set some meaningful names, like:
+
+git remote add remote-github (url-to-repo-on-github)
+git remote add remote-gitlab1 (url-to-repo-on-gitlab1)
+git remote add remote-gitlab2 (url-to-repo-on-gitlab2)
+...
+//This sets up 3+ remotes with different names. Now you can:
+
+git push remote-github master
+git push remote-gitlab1 master
+
+
+
+
+
+
+//UNDO de git reset --hard origin/master
+//if git reset --hard origin/master is the last command you run, you can do
+git reset HEAD@{1}
+
+//If you committed it, nothing is lost.
+//If you have the reference of the commit, you can just 
+git reset --hard <sha>
+//to that precise commit
