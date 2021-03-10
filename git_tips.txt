@@ -336,3 +336,16 @@ git reset HEAD@{1}
 //If you have the reference of the commit, you can just 
 git reset --hard <sha>
 //to that precise commit
+
+
+
+
+//CHANGE from SSH to HTTPS ou vice-versa
+//se se quiser ver o que está definido
+$ git remote -v
+
+//Change your remote's URL from SSH to HTTPS with the git remote set-url command.
+$ git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+
+//Change your remote's URL from HTTPS to SSH with the git remote set-url command.
+$ git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
