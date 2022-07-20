@@ -42,3 +42,6 @@ find /home/exampleuser/ -name "*conf" -mtime 3
 
 
 
+PIPE find results into rm:
+find . -name "*.DS_Store" | xargs rm
+
